@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spinner : MonoBehaviour
 {
+    //here is where i will make new booleans to simplify movement and player code
+    public bool wheelCanBeSpun = true;
+    public bool wheelIsSpinning = false;
+    public bool returnNow = false;
 
-    public bool returnReady = false;
+    public int playerToMove = 1;
+    public float spinTimer = 2.0f;
     public int direction = 1;
-    public bool rotationTime = false;
-    public bool currentlyRotating = false;
     public GameObject center;
     public int speed = 2000;
     private float timer = 0.25f;
@@ -23,13 +27,8 @@ public class Spinner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && !currentlyRotating && rotationTime)
+        if (wheelIsSpinning)
         {
-            currentlyRotating = true;
-        }
-        if (currentlyRotating == true)
-        {
-            rotationTime = false;
             SpinTheWheel();
         }
     }
@@ -44,7 +43,7 @@ public class Spinner : MonoBehaviour
         }
         if (speed <= 0)
         {
-            currentlyRotating = false;
+            wheelIsSpinning = false;
             StartCoroutine(ReturnReward());
         }
     }
@@ -102,6 +101,6 @@ public class Spinner : MonoBehaviour
             Debug.Log(returnValue);
         }
         returnValue *= direction;
-       returnReady = true;
+        returnNow = true;
     }
 }
